@@ -1,0 +1,72 @@
+version: "3"
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/certs:/certs
+    depends_on:
+      - web
+    networks:
+      - webdbnet
+  web:
+    build: ./web
+    volumes:
+      # Example of host volume mounted in container
+       - ./web:/var/www/html
+      # Example of docker volume mounted in container
+      #- web-data:/var/www/html
+    depends_on:
+      - redis
+    networks:
+      - webdbnet
+  db:
+    # build: ./mysql
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mysql/tmp:/var/lib/mysql
+    networks:
+      - webdbnet
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    ports:
+    - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - webdbnet
+
+  rails:
+    # stdin_open: true
+    # tty: true
+    build: ./rails
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - ./rails/myapp:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:11
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: Free123!
+
+networks:
+  webdbnet:
+
+volumes:
+  web-data:
