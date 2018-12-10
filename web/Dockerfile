@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
       libfreetype6-dev \
       libjpeg-dev \
       libpng-dev \
+      libpq-dev \
     && a2enmod rewrite expires \
     && pecl install mcrypt-1.0.1 \
     && docker-php-ext-install gd mysqli opcache iconv \
@@ -19,7 +20,10 @@ RUN apt-get update && apt-get install -y \
        --with-freetype-dir=/usr/include/ \
        --with-jpeg-dir=/usr/include/ \
        --with-png-dir=/usr/include/ \
-    && docker-php-ext-enable mcrypt mysqli
+    && docker-php-ext-enable mcrypt mysqli \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 
 # Copy any custom apache configuration / virtualhost configuraiton file at this point.
 # Put your apache config files in /etc/apache2/sites-enabled/
