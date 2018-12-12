@@ -57,15 +57,29 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
+    networks:
+      - webdbnet
 
   postgres:
     image: postgres:11
     ports:
       - 5432:5432
     volumes:
-      - ./postgres/db:/var/lib/postgresql/data
+      - ./postgres/db/tmp:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: Free123!
+    networks:
+      - webdbnet
+
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    ports:
+    - "27017:27017"
+    volumes:
+    - ./mongo/tmp:/data/db
+    networks:
+      - webdbnet
 
 networks:
   webdbnet:

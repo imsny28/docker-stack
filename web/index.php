@@ -1,5 +1,5 @@
 <?php
-echo 'Docker-compose example. If you see this, it means you have not mounted any web content on the default root.';
+// echo 'Docker-compose example. If you see this, it means you have not mounted any web content on the default root.';
 
 // $db_connection = pg_connect("host=localhost port = 5432 dbname=rails_app_development user=postgres password=Free123!");
 // $db_connection = pg_connect('dbname=rails_app_development host=demo_postgres_1 port=5432 user=postgres password=Free123!');
@@ -9,7 +9,19 @@ echo 'Docker-compose example. If you see this, it means you have not mounted any
 $dbconn = pg_connect("host=postgres dbname=rails_app_development user=postgres password=Free123!");
 // Show the client and server versions
 // print_r(pg_version($dbconn));
-
+$sql =  "SELECT * from articles";
+   $ret = pg_query($dbconn, $sql);
+   if(!$ret) {
+      echo pg_last_error($db);
+      exit;
+   }
+   while($row = pg_fetch_row($ret)) {
+      echo "ID = ". $row[0] . "<br>";
+      echo "Title = ". $row[1] ."<br>";
+      echo "Text = ". $row[2] ."<br>";
+   }
+   // echo "Operation done successfully\n";
+   // pg_close($db);
 // print_r($db_connection);
 
 // $host        = "host = 127.0.0.1";
