@@ -1,8 +1,12 @@
 // Dependencies
 const express = require("express");
 const exphbs  = require('express-handlebars');
+const methodOverride = require('method-override');
+const flash = require('connect-flash');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const pg = require('pg');
 
 const app = express();
 const port = 5000;
@@ -11,9 +15,16 @@ const port = 5000;
  mongoose.Promise = global.Promise;
 
 // Connect to mongoose
-mongoose.connect('mongodb://mongo:27017/mydb', { useNewUrlParser: true })
+mongoose.connect('mongodb://root:maro123#@mongo:27017/mydb', { useNewUrlParser: true })
 .then(()=>console.log('connected..'))
 .catch(err=>console.log(err));
+
+// // Connect to postgres
+// const connectionString = 'postgresql://postgres:Free123!@postgres:5432/rails_app_development'
+//
+// const client = new pg.Client(connectionString);
+// client.connect().then(()=> console.log('PG Connect....'));
+
 
 // Load Idea Model
 require('./models/Idea');
@@ -28,25 +39,50 @@ app.set('view engine', 'handlebars');
 
 // Body parser middle
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-// Home Index Route
-app.get('/', (req, res)=>{
-  const title = "Home"
- res.render("Index", {
-   title
- });
+// Method override middleware
+app.use(methodOverride('_method'));
+
+// Express session midleware
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(flash());
+
+// Global variables
+app.use(function(req, res, next){
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
 });
 
-// Idea Index page
-app.get('/ideas', (req, res)=>{
-  Idea.find({})
-  .sort({date:'desc'})
-  .then(ideas => {
-    res.render('ideas/index', {
-      ideas: ideas
-    });
+// Index Route
+app.get('/', (req, res) => {
+  const title = 'Welcome';
+  res.render('index', {
+    title: title
   });
+});
+
+// About Route
+app.get('/about', (req, res) => {
+  res.render('about');
+});
+
+// Idea Index Page
+app.get('/ideas', (req, res) => {
+  Idea.find({})
+    .sort({date:'desc'})
+    .then(ideas => {
+      res.render('ideas/index', {
+        ideas:ideas
+      });
+    });
 });
 
 // Add Idea Form
@@ -54,53 +90,90 @@ app.get('/ideas/add', (req, res) => {
   res.render('ideas/add');
 });
 
-// edit Idea Form
+// Edit Idea Form
 app.get('/ideas/:id/edit', (req, res) => {
   Idea.findOne({
     _id: req.params.id
   })
   .then(idea => {
-    res.render('ideas/edit',{
+    res.render('ideas/edit', {
+      idea:idea
+    });
+  });
+});
+
+// show idea form
+app.get('ideas/:id', (req, res)=>{
+  Idea.findOne({
+    _id: req.params.id
+  })
+  .then(idea => {
+    res.render('ideas/show', {
       idea: idea
     });
-  })
+  });
 });
 
 // Process Form
-app.post('/ideas', (req, res)=>{
+app.post('/ideas', (req, res) => {
   let errors = [];
-  if(!req.body.title) {
-    errors.push({text: 'Please add a title'});
+
+  if(!req.body.title){
+    errors.push({text:'Please add a title'});
+  }
+  if(!req.body.details){
+    errors.push({text:'Please add some details'});
   }
 
-  if(!req.body.details) {
-    errors.push({text: 'Please add some details'});
-  }
-
-  if(errors.length > 0) {
+  if(errors.length > 0){
     res.render('ideas/add', {
       errors: errors,
       title: req.body.title,
       details: req.body.details
     });
-
   } else {
     const newUser = {
       title: req.body.title,
       details: req.body.details
     }
-
-    new Idea(newUser).save().then(idea =>{
-      res.redirect('/ideas');
-    });
+    new Idea(newUser)
+      .save()
+      .then(idea => {
+        req.flash('success_msg', 'Video idea added');
+        res.redirect('/ideas');
+      })
   }
 });
 
-// About Route
-app.get('/about', (req, res)=>{
-  res.render("About");
+// Edit Form process
+app.put('/ideas/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  })
+  .then(idea => {
+    // new values
+    idea.title = req.body.title;
+    idea.details = req.body.details;
+
+    idea.save()
+      .then(idea => {
+        req.flash('success_msg', 'Video idea updated');
+        res.redirect('/ideas');
+      })
+  });
 });
 
-app.listen(port, ()=>{
-  console.log(`Server stated on port ${port}`);
+// Delete Idea
+app.delete('/ideas/:id', (req, res) => {
+  Idea.remove({_id: req.params.id})
+    .then(() => {
+      req.flash('success_msg', 'Video idea removed');
+      res.redirect('/ideas');
+    });
+});
+
+
+
+app.listen(port, () =>{
+  console.log(`Server started on port ${port}`);
 });

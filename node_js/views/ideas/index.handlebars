@@ -6,9 +6,21 @@
     <hr>
     <div class="btn-group btn-group-toggle">
       <a href="/ideas/{{id}}/edit" class="btn btn-outline-secondary">edit</a>
-      <a href="#" class="btn btn-outline-danger">Delete</a>
+      <!-- <a href="/ideas/{{id}}" class="btn btn-outline-secondary">show</a> -->
+      <!-- <a href="#" class="btn btn-outline-danger">Delete</a> -->
+
+      <form method="post" action="/ideas/{{id}}?_method=DELETE">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" class="btn btn-danger btn-block" value="Delete">
+      </form>
     </div>
   </div>
 {{else}}
   <p>No video idea listed</p>
 {{/each}}
+
+<!-- db.createUser({
+  user: "root",
+  pwd: "maro123#",
+  roles: [ { role: "readWrite", db: "mydb" } ]
+}) -->
