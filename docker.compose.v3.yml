@@ -55,8 +55,6 @@ services:
       - ./rails_app:/app
     ports:
       - "3000:3000"
-    depends_on:
-      - postgres
     networks:
       - webdbnet
 
@@ -87,6 +85,20 @@ services:
     - "27017:27017"
     volumes:
     - ./mongo/tmp:/data/db
+    networks:
+      - webdbnet
+
+  golang:
+    build: ./golang
+    container_name: "golang"
+    command: go run main.go
+    volumes:
+      - ./golang:/go/src/app
+    working_dir: /go/src/app
+    ports:
+      - "3030:3000"
+    environment:
+      PORT: 3002
     networks:
       - webdbnet
 

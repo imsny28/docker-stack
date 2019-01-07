@@ -1,0 +1,50 @@
+{
+  "development": {
+    "username": "qyijozrx",
+    "password": "nFc-ZlI0u59gsFNHa9EaYEXaLgZm3SIj",
+    "database": "qyijozrx",
+    "host": "baasu.db.elephantsql.com",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "port":5432,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  },
+  "test": {
+    "username": "qyijozrx",
+    "password": "nFc-ZlI0u59gsFNHa9EaYEXaLgZm3SIj",
+    "database": "qyijozrx",
+    "host": "baasu.db.elephantsql.com",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "port":5432,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  },
+  "production": {
+    "username": "qyijozrx",
+    "password": "nFc-ZlI0u59gsFNHa9EaYEXaLgZm3SIj",
+    "database": "qyijozrx",
+    "host": "baasu.db.elephantsql.com",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "port":5432,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  }
+}

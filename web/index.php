@@ -6,7 +6,7 @@
 // $dbconn = pg_connect("host=demo_postgres_1 port=5432 dbname=rails_app_development user=postgres password=Free123!")or die("Could not connect");
 
 // Connect to the database
-$dbconn = pg_connect("host=postgres dbname=rails_app_development user=postgres password=Free123!");
+$dbconn = pg_connect("host=postgres dbname=rails_app_development1 user=postgres password=Free123!");
 // Show the client and server versions
 // print_r(pg_version($dbconn));
 $sql =  "SELECT * from articles";

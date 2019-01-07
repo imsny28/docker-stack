@@ -1,0 +1,53 @@
+{
+  "development": {
+    "username": "root",
+    "password": "maro123#",
+    "database": "docker_php",
+    "host": "postgres",
+    "dialect": "postgres",
+    "protocol":"postgres",
+    "port": 5432,
+    "operatorsAliases": false,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  },
+  "test": {
+    "username": "root",
+    "password": "maro123#",
+    "database": "docker_php",
+    "host": "postgres",
+    "dialect": "postgres",
+    "protocol":"postgres",
+    "port": 5432,
+    "operatorsAliases": false,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  },
+  "production": {
+    "username": "root",
+    "password": "maro123#",
+    "database": "docker_php",
+    "host": "postgres",
+    "dialect": "postgres",
+    "protocol":"postgres",
+    "port": 5432,
+    "operatorsAliases": false,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  }
+}

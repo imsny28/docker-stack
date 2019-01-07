@@ -1,0 +1,47 @@
+{
+  "development": {
+    "username": "docker_php123",
+    "password": "docker_php123",
+    "database": "docker_php123",
+    "host": "https://www.db4free.net",
+    "dialect": "mysql",
+    "operatorsAliases": false,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  },
+  "test": {
+    "username": "root",
+    "password": "maro123#",
+    "database": "docker_php",
+    "host": "https://www.db4free.net",
+    "dialect": "mysql",
+    "operatorsAliases": false,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  },
+  "production": {
+    "username": "root",
+    "password": "maro123#",
+    "database": "docker_php",
+    "host": "https://www.db4free.net",
+    "dialect": "mysql",
+    "operatorsAliases": false,
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "encoding": "unicode"
+  }
+}

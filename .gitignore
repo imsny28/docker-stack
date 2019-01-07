@@ -1,0 +1,10 @@
+mysql/tmp/*
+.DS_Store
+.env
+postgres/db/*
+electron
+redis/data/*
+mongo/tmp/*
+node_sequelize/node-sequelize/node_modules/*
+postgres/db/*
+mysql/tmp/*
