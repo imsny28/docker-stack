@@ -8,3 +8,4 @@ mongo/tmp/*
 node_sequelize/node-sequelize/node_modules/*
 postgres/db/*
 mysql/tmp/*
+.gitignore
