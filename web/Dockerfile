@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:7.2-apache
 
 # Note: php:7-apache is a debian based image.
 # Note: mycrypt extension is not provided with the PHP source since 7.2.
